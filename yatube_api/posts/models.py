@@ -20,7 +20,7 @@ class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='followings'
+        related_name='follows'
     )
     following = models.ForeignKey(
         User, on_delete=models.CASCADE,
@@ -53,6 +53,9 @@ class Post(models.Model):
         blank=True,
         null=True
     )
+
+    class Meta:
+        ordering = 'pub_date',
 
     def __str__(self):
         return self.text[:MAX_TEXT_LENGTH]

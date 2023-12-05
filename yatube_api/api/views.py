@@ -3,7 +3,9 @@ from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticated, IsAuthenticatedOrReadOnly
+)
 
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
@@ -20,11 +22,12 @@ class ListCreateViewSet(
 
 class FollowViewSet(ListCreateViewSet):
     serializer_class = FollowSerializer
+    permission_classes = [IsAuthenticated,]
     filter_backends = (SearchFilter,)
     search_fields = ('following__username',)
 
     def get_queryset(self):
-        return self.request.user.followings.all()
+        return self.request.user.follows.all()
 
     def perform_create(self, serializer):
         serializer.save(
@@ -33,8 +36,6 @@ class FollowViewSet(ListCreateViewSet):
 
 
 class GroupReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
