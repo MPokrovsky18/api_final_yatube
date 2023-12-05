@@ -20,11 +20,11 @@ class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='follows'
+        related_name='followers'
     )
     following = models.ForeignKey(
         User, on_delete=models.CASCADE,
-        related_name='followers'
+        related_name='followings'
     )
 
     class Meta:
