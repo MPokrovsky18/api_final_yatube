@@ -22,7 +22,7 @@ class ListCreateViewSet(
 
 class FollowViewSet(ListCreateViewSet):
     serializer_class = FollowSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated]
     filter_backends = (SearchFilter,)
     search_fields = ('following__username',)
 
